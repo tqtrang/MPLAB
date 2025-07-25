@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Phiếu theo dõi tiếp nhận hóa chất</title>
+
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            margin: 40px;
+            font-size: 14px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .header {
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+        .info-block {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .italic {
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .button-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .button-group button {
+            padding: 8px 14px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #print-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #home-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        @media print {
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Mã số: STHH01/HDC-BM12.2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Ngày ban hành: 01/11/2018 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Lần sửa đổi: 00
+    </div>
+
+    <div class="center bold">
+        CÔNG TY CỔ PHẦN TẬP ĐOÀN THỦY SẢN MINH PHÚ<br>
+        <span class="italic">MINH PHU SEAFOOD CORP</span>
+    </div>
+
+    <h3 class="center bold" style="margin-top: 10px;">
+        PHIẾU THEO DÕI TIẾP NHẬN HÓA CHẤT, CHẤT CHUẨN<br>
+        <span class="italic">Journal for each chemicals, standards</span>
+        <br>
+    </h3>
+
+    <div class="info-block">
+        1. <b>Tên hoá chất, chất chuẩn:</b> {{ chemical_name or '_________' }}<br>
+        <span class="italic">Name of chemical, standard:</span><br><br>
+
+        2. <b>Công thức hoá học:</b> {{ formula or '_________' }}<br>
+        <span class="italic">Molecular formula:</span><br><br>
+
+        3. <b>Điều kiện bảo quản:</b> {{ storage or '_________' }}<br>
+        <span class="italic">Storage:</span><br><br>
+
+        4. <b>Lưu ý:</b> {{ warning or '_________' }}<br>
+        <span class="italic">Do not get in eyes, on skin, or on clothing</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Ngày tiếp nhận<br><span class="italic">Date of receiving</span></th>
+                <th>Người nhận<br><span class="italic">Name of receiver</span></th>
+                <th>Nhà cung cấp<br><span class="italic">Supplier</span></th>
+                <th>Đơn vị tính<br><span class="italic">Unit</span></th>
+                <th>Số lượng<br><span class="italic">Quantity</span></th>
+                <th>Ngày hết hạn<br><span class="italic">Exp. date</span></th>
+                <th>Lot.No</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in logs %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ row[0] }}</td> <!-- import_date -->
+                <td>{{ row[5] or 'user tạm' }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[6] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="button-group">
+        <button id="print-btn" onclick="window.print()">🖨️ In phiếu</button>
+        <a href="{{ url_for('dashboard.index') }}">
+            <button id="home-btn">🏠 Về trang chính</button>
+        </a>
+    </div>
+
+</body>
+</html>

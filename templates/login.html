@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập hệ thống</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle, #e0f7fa, #00796b);
+      overflow: hidden;
+    }
+    .bg-shape {
+      position: absolute;
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.2;
+    }
+    .shape1 {
+      width: 600px;
+      height: 600px;
+      background: #004d40;
+      top: -100px;
+      left: -100px;
+    }
+    .shape2 {
+      width: 400px;
+      height: 400px;
+      background: #26a69a;
+      bottom: -120px;
+      right: -80px;
+    }
+    .login-container {
+      position: relative;
+      z-index: 1;
+      background: white;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .login-container img {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #00695c;
+      margin-bottom: 20px;
+    }
+    .flash-message {
+      color: red;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #009688;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00796b;
+    }
+    .footer {
+      text-align: center;
+      color: white;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
+
+  <div class="login-container">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
+
+    <!-- THÔNG BÁO LỖI -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <input type="text" name="user_id" placeholder="Mã nhân viên" required>
+      <input type="password" name="password" placeholder="Mật khẩu" required>
+      <button type="submit">Đăng nhập</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Minh Phú Cà Mau - SHARING GOOD FOOD
+  </div>
+</body>
+</html>

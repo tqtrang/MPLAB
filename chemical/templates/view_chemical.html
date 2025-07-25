@@ -1,0 +1,99 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Danh sách hóa chất đã nhận{% endblock %}
+
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        td.left {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        a.button, button.button {
+            padding: 4px 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button.button.delete {
+            background-color: #e74c3c;
+        }
+
+        a.button:hover, button.button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+    <h2 style="text-align: center;">📋 DANH SÁCH HÓA CHẤT ĐÃ NHẬP</h2>
+
+    {% set col_headers = {
+        'id': 'STT',
+        'chemical_sap_name': 'Tên hoá chất (SAP)',
+        'chemical_name': 'Tên hoá chất (LAB)',
+        'unit': 'Đơn vị',
+        'quantity': 'Số lượng',
+        'supplier': 'Nhà cung cấp',
+        'import_date': 'Ngày nhập',
+        'sap_code': 'Mã SAP',
+        'lot_number': 'Số Lot',
+        'storage_condition': 'ĐK bảo quản',
+        'expiration_date': 'Ngày hết hạn',
+        'imported_by': 'Người nhập',
+        'batch_code': 'Mã đợt nhập'
+    } %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                {% for col in col_names[1:] %}
+                    <th>{{ col_headers[col] if col in col_headers else col }}</th>
+                {% endfor %}
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    {% for i in range(1, row|length) %}
+                        {% set col_name = col_names[i] %}
+                        <td class="{% if col_name in ['chemical_sap_name', 'chemical_name', 'supplier'] %}left{% endif %}">
+                            {{ row[i] }}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <a href="/edit_chemical/{{ row[0] }}" class="button">✏️ Sửa</a>
+                        <form method="POST" action="/delete_chemical/{{ row[0] }}" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá dòng này?');">
+                            <button type="submit" class="button delete">🗑️ Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/import_chemical">⬅ Quay lại nhập hóa chất</a>
+{% endblock %}

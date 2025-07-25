@@ -1,0 +1,78 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Xuất kho hóa chất{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #888;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">📋 NHẬT KÝ TIẾP NHẬN VẬT TƯ</h2>
+
+    <form method="POST">
+        <label>Chọn vật tư:</label><br>
+        <select name="material_name" required>
+            <option value="">-- chọn vật tư --</option>
+            {% for name in name_list %}
+                <option value="{{ name }}" {% if name == selected %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Xem nhật ký</button>
+    </form>
+
+    {% if logs %}
+        <h3>Kết quả cho: <em>{{ selected }}</em></h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ngày nhập</th>
+                    <th>Tên vật tư (SAP)</th>
+                    <th>Đơn vị tính</th>
+                    <th>Số lượng</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Người nhập</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in logs %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] or 'user tạm' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif selected %}
+        <p><em>Không có dữ liệu cho vật tư đã chọn.</em></p>
+    {% endif %}
+
+{% endblock %}
+

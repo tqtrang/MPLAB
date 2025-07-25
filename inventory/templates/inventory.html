@@ -1,0 +1,68 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Tồn kho tổng hợp{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;">📦 TỒN KHO VẬT TƯ - HÓA CHẤT</h1>
+<p>
+  🔙 <a href="{{ url_for('dashboard.index') }}">Quay về Trang chính</a>
+</p>
+
+<div style="margin-bottom: 20px;">
+  <a href="{{ url_for('inventory.print_inventory') }}" target="_blank">
+  <button>🖨️ In tồn kho</button>
+</a>
+  <a href="{{ url_for('inventory.export_excel') }}">
+    <button>📥 Xuất Excel</button>
+  </a>
+</div>
+
+<!-- VẬT TƯ -->
+<div style="background-color: #e3f2fd; padding: 10px; margin-bottom: 10px;">
+  <h2 style="margin: 0; text-align: center;">VẬT TƯ</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 40%;">Tên vật tư (SAP)</th>
+      <th style="width: 30%;">Đơn vị tính</th>
+      <th style="width: 30%;">Số lượng tồn</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in material_data %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3"><em>Không có tồn kho vật tư</em></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- HÓA CHẤT -->
+<div style="background-color: #fff3cd; padding: 10px; margin: 30px 0 10px 0;">
+  <h2 style="margin: 0; text-align: center;">HÓA CHẤT</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 40%;">Tên hóa chất (SAP)</th>
+      <th style="width: 30%;">Đơn vị tính</th>
+      <th style="width: 30%;">Số lượng tồn</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in chemical_data %}
+    <tr>
+      <td>{{ row[0] }}</td>
+      <td>{{ row[1] }}</td>
+      <td>{{ row[2] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3"><em>Không có tồn kho hóa chất</em></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

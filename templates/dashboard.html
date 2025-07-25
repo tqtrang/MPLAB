@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang chính</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4fefe;
+    }
+
+    header {
+      background: #b2ebf2;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    .header-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #e0f7fa;
+      border-top: 2px solid #00838f;
+      border-bottom: 2px solid #00838f;
+      padding: 10px 0;
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      color: #006064;
+      padding: 10px 20px;
+      border-radius: 6px;
+      background-color: #ffffff;
+      border: 1px solid #0097a7;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #b2ebf2;
+      transform: scale(1.05);
+    }
+
+    .banner-img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 50px;
+    }
+
+    .banner {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .banner h2 {
+      font-size: 38px;
+      color: #0d47a1;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .banner p {
+      font-size: 20px;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffeb3b;
+      color: #555;
+      margin-top: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="{{ url_for('static', filename='images/logoMPC.png') }}" alt="Logo 1" class="logo">
+
+    <div class="header-center">
+      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+      {% if session.get('user_name') %}
+        <p>
+          Xin chào: <strong>{{ session['user_name'] }}</strong> |
+          <a href="{{ url_for('auth.logout') }}">Đăng xuất</a> |
+          <a href="{{ url_for('change_pw.change_password') }}">🔑 Đổi mật khẩu</a>
+        </p>
+      {% endif %}
+    </div>
+
+    <img src="{{ url_for('static', filename='images/logo_ISO.png') }}" alt="Logo 2" class="logo">
+  </header>
+
+  <!-- NAVIGATION MENU -->
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('dashboard.index') }}">🏠 Trang chính</a></li>
+
+      {% if 'import' in session.get('roles', []) %}
+        <li><a href="{{ url_for('dashboard.import_menu') }}">📥 Nhập kho</a></li>
+      {% endif %}
+
+      {% if 'export' in session.get('roles', []) %}
+        <li><a href="{{ url_for('dashboard.export_menu') }}">📤 Xuất kho</a></li>
+      {% endif %}
+
+      {% if 'admin' in session.get('roles', []) %}
+	<li><a href="{{ url_for('dashboard.import_menu') }}">📥 Nhập kho</a></li>
+	<li><a href="{{ url_for('dashboard.export_menu') }}">📤 Xuất kho</a></li>
+        <li><a href="{{ url_for('dashboard.statistic_menu') }}">📈 Thống kê</a></li>
+	
+      {% endif %}
+    </ul>
+  </nav>
+
+  <!-- BANNER IMAGE -->
+  <img src="{{ url_for('static', filename='images/logo_MPLAB.png') }}" alt="Banner" class="banner-img">
+
+  <!-- BANNER TEXT -->
+  <div class="banner">
+    <h2>CHÀO MỪNG ĐẾN TRANG QUẢN LÝ</h2>
+    <p>Vui lòng chọn chức năng bạn muốn thao tác</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Công ty Cổ Phần Tập Đoàn Thủy Sản Minh Phú
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Quản lý Nhập kho{% endblock %}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #e0f7fa;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #00838f; /* Thêm dòng này */
+    }
+
+    .logo {
+      height: 100px;
+    }
+
+    .header-center {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    nav {
+      width: 170px;
+      background-color: #e0f7fa;
+      padding: 20px 10px;
+      min-height: calc(100vh - 160px); /* Trừ phần header + footer */
+      border-right: 2px solid #00838f;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin-bottom: 12px;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #004d40;
+      padding: 8px 12px;
+      display: block;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #b2ebf2;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+    }
+
+    th {
+      background-color: #f9f9f9;
+      text-align: left;
+    }
+
+    button {
+      padding: 6px 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+    }
+
+    footer {
+      background-color: #ffeb3b;
+      padding: 16px;
+      text-align: center;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <!-- Logo -->
+    <div>
+      <img src="{{ url_for('static', filename='images/logoMPC.png') }}" alt="Logo" class="logo">
+    </div>
+
+    <!-- Tiêu đề và người dùng -->
+    <div class="header-center">
+      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+      {% if session.get('user_name') %}
+        <p>
+          Xin chào: <strong>{{ session['user_name'] }}</strong> |
+          <a href="{{ url_for('auth.logout') }}">Đăng xuất</a>
+        </p>
+      {% endif %}
+    </div>
+
+    <div>
+      <img src="{{ url_for('static', filename='images/logo_MPLAB.png') }}" alt="Logo" class="logo">
+    </div>
+
+  </header>
+
+  <!-- THÂN TRANG -->
+  <div class="wrapper">
+    <!-- MENU DỌC -->
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('dashboard.index') }}">🏠 Trang chính</a></li>
+        <li><a href="{{ url_for('material.import_material') }}">📥 Nhập Vật Tư</a></li>
+        <li><a href="{{ url_for('chemical.import_chemical') }}">🧪 Nhập Hóa Chất</a></li>
+      </ul>
+    </nav>
+
+    <!-- PHẦN NỘI DUNG CHÍNH -->
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <hr>
+    <p>&copy; {{ 2025 }} Công ty Cổ Phần Tập Đoàn Thủy Sản Minh Phú</p>
+  </footer>
+
+</body>
+</html>

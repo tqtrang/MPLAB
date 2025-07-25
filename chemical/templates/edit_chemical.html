@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}Sửa thông tin nhận hóa chất{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            display: inline-block;
+            width: 160px;
+            margin-bottom: 8px;
+        }
+        input, select {
+            padding: 5px;
+            margin-bottom: 8px;
+        }
+        .btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-save {
+            background-color: #4CAF50;
+        }
+        .btn-cancel {
+            background-color: gray;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">✏️ SỬA PHIẾU NHẬN HÓA CHẤT</h2>
+
+    <form method="POST" action="/edit_chemical/{{ entry[0] }}">
+        <label for="chemical_sap_name">Tên hóa chất (SAP):</label>
+        <select name="chemical_sap_name" required>
+            {% for item in chemical_sap_list %}
+                <option value="{{ item }}" {% if item == entry[1] %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="chemical_name">Tên hóa chất (LAB):</label>
+        <input type="text" name="chemical_name" value="{{ entry[2] }}" required><br>
+
+        <label for="unit">Đơn vị:</label>
+        <input type="text" name="unit" value="{{ entry[3] }}" required><br>
+
+        <label for="quantity">Số lượng:</label>
+        <input type="number" name="quantity" value="{{ entry[4] }}" min="1" required><br>
+
+        <label for="supplier">Nhà cung cấp:</label>
+        <select name="supplier" required>
+            {% for s in supplier_list %}
+                <option value="{{ s }}" {% if s == entry[5] %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="import_date">Ngày nhập:</label>
+        <input type="date" name="import_date" value="{{ entry[6] }}" required><br>
+
+        <label for="sap_code">Mã SAP:</label>
+        <input type="text" name="sap_code" value="{{ entry[7] }}" required><br>
+
+        <label for="lot_number">Số Lot:</label>
+        <input type="text" name="lot_number" value="{{ entry[8] }}" required><br>
+
+        <label for="storage_condition">ĐK bảo quản:</label>
+        <input type="text" name="storage_condition" value="{{ entry[9] }}" required><br>
+
+        <label for="expiration_date">Ngày hết hạn:</label>
+        <input type="date" name="expiration_date" value="{{ entry[10] }}" required><br>
+
+        <label for="imported_by">Người nhập:</label>
+        <input type="text" name="imported_by" value="{{ entry[11] }}" readonly><br>
+
+        <button type="submit" class="btn btn-save">💾 Lưu thay đổi</button>
+        <a href="/view_chemical" class="btn btn-cancel">❌ Hủy</a>
+    </form>
+
+{% endblock %}

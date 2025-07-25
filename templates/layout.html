@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Quản lý kho{% endblock %}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #f0f0f0;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      height: 60px;
+    }
+
+    .header-center {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #e0f7fa;
+      border-top: 2px solid #00838f;
+      border-bottom: 2px solid #00838f;
+      padding: 10px 0;
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin: 0;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #004d40;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #b2ebf2;
+    }
+
+    .login-box {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    .error {
+      color: red;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+    }
+
+    th {
+      background-color: #f9f9f9;
+      text-align: left;
+    }
+
+    button {
+      padding: 6px 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #ffeb3b;
+      padding: 16px;
+      text-align: center;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <!-- Logo -->
+    <div>
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+    </div>
+
+    <!-- Tiêu đề và thông tin người dùng -->
+    <div class="header-center">
+      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+      {% if session.get('user_name') %}
+        <p>
+          Xin chào: <strong>{{ session['user_name'] }}</strong> |
+          <a href="{{ url_for('auth.logout') }}">Đăng xuất</a>
+        </p>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- MENU -->
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('dashboard.index') }}">🏠 Trang chính</a></li>
+      <li><a href="{{ url_for('material.import_material') }}">📥 Nhập Vật Tư</a></li>
+      <li><a href="{{ url_for('chemical.import_chemical') }}">🧪 Nhập Hóa Chất</a></li>
+      <li><a href="{{ url_for('export_mat.export_material') }}">📤 Xuất Vật Tư</a></li>
+      <li><a href="{{ url_for('export_chem.export_chemical') }}">📤 Xuất Hóa Chất</a></li>
+      <li><a href="{{ url_for('log_mat.log_material') }}">📜 Nhật Ký Vật Tư</a></li>
+      <li><a href="{{ url_for('log_chem.log_chemical') }}">📜 Nhật Ký Hóa Chất</a></li>
+      <li><a href="{{ url_for('view_export.view_export_material') }}">📤 Nhật ký xuất vật tư</a></li>
+      <li><a href="{{ url_for('view_export.view_export_chemical') }}">🧪 Nhật ký xuất hóa chất</a></li>
+
+      <li><a href="{{ url_for('inventory.view_inventory') }}">📦 Tồn Kho</a></li>
+      <li><a href="{{ url_for('view_mat.view_material') }}">📄 Vật Tư Đã Nhận</a></li>
+      <li><a href="{{ url_for('view_chem.view_chemical') }}">📄 Hóa Chất Đã Nhận</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <hr>
+    <p>&copy; {{ 2025 }} Công ty Cổ Phần Tập Đoàn Thủy Sản Minh Phú</p>
+  </footer>
+
+</body>
+</html>

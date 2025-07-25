@@ -1,0 +1,92 @@
+{% extends "layout_import.html" %}
+{% block title %}Nhập kho hóa chất{% endblock %}
+
+{% block content %}
+<script>
+    let chemicalData = [];
+
+    window.onload = () => {
+        chemicalData = JSON.parse(document.getElementById("chemical_data").textContent);
+        addRow();  // Tự động thêm 1 hàng khi tải trang
+    };
+
+    function addRow() {
+        const table = document.getElementById("chemical_table");
+        const row = table.insertRow();
+
+        row.innerHTML = `
+            <td>
+                <select name="chemical_sap_name[]" onchange="updateRow(this)" required style="width: 220px;">
+                    <option value="" disabled selected>-- chọn hóa chất --</option>
+                    ${chemicalData.map(item => `<option value="${item.chemical_sap_name}">${item.chemical_sap_name}</option>`).join("")}
+                </select>
+            </td>
+            <td><input type="text" name="unit[]" readonly style="width: 50px;"></td>
+            <td><input type="number" name="quantity[]" min="1" required style="width: 60px;"></td>
+            <td>
+                <select name="supplier[]" required style="width: 130px;">
+                    <option value="" disabled selected>-- chọn NCC --</option>
+                    {% for s in suppliers %}
+                        <option value="{{ s }}">{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td><input type="date" name="import_date[]" required style="width: 100px;"></td>
+            <td><input type="text" name="sap_code[]" readonly style="width: 60px;"></td>
+            <td><input type="text" name="chemical_name[]" readonly style="width: 180px;"></td>
+            <td><input type="text" name="lot_number[]" required style="width: 90px;"></td>
+            <td><input type="text" name="storage_condition[]" required style="width: 140px;"></td>
+            <td><input type="date" name="expiration_date[]" required style="width: 100px;"></td>
+            <td><input type="text" name="imported_by[]" value="{{ session.get('user_name', 'user lỗi') }}" readonly style="width: 130px;"></td>
+            <td><button type="button" onclick="removeRow(this)">🗑️</button></td>
+        `;
+    }
+
+    function removeRow(btn) {
+        const row = btn.closest("tr");
+        row.remove();
+    }
+
+    function updateRow(selectElement) {
+        const selected = selectElement.value;
+        const data = chemicalData.find(m => m.chemical_sap_name === selected);
+        if (!data) return;
+
+        const row = selectElement.closest("tr");
+        row.querySelector('input[name="unit[]"]').value = data.unit;
+        row.querySelector('input[name="sap_code[]"]').value = data.sap_code;
+        row.querySelector('input[name="chemical_name[]"]').value = data.chemical_name;
+    }
+</script>
+
+<h2 style="text-align: center;">NHẬP KHO HÓA CHẤT</h2>
+
+<form method="POST" action="/submit_chemical">
+    <div style="overflow-x: auto;">
+        <table border="1" id="chemical_table">
+            <tr>
+                <th>Tên hóa chất (SAP)</th>
+                <th>Đơn vị</th>
+                <th>Số lượng</th>
+                <th>Nhà cung cấp</th>
+                <th>Ngày nhập</th>
+                <th>Mã SAP</th>
+                <th>Tên hóa chất (LAB)</th>
+                <th>Số Lot</th>
+                <th>Điều kiện bảo quản</th>
+                <th>Ngày hết hạn</th>
+                <th>Người nhập</th>
+                <th>Hành động</th>
+            </tr>
+        </table>
+    </div>
+
+    <button type="button" onclick="addRow()">➕ Thêm hàng</button><br><br>
+    <button type="submit">✅ Nhập hóa chất</button>
+</form>
+
+<!-- JSON từ server -->
+<script type="application/json" id="chemical_data">
+    {{ chemical_data | tojson }}
+</script>
+{% endblock %}

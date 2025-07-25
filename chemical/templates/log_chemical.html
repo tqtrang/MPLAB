@@ -1,0 +1,100 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Xuất kho hóa chất{% endblock %}
+
+{% block content %}
+    <style>
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #888;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .print-btn {
+            margin-top: 15px;
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .print-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">📋 NHẬT KÝ TIẾP NHẬN HÓA CHẤT </h2>
+
+    <form method="POST">
+        <label>Chọn hóa chất:</label><br>
+        <select name="chemical_name">
+  	  {% for name in name_list %}
+    	     <option value="{{ name }}" {% if name == selected %}selected{% endif %}>{{ name }}</option>
+  	  {% endfor %}
+	</select>
+        <button type="submit">Xem nhật ký</button>
+    </form>
+
+    {% if logs %}
+        <h3>Kết quả cho: <em>{{ selected }}</em></h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ngày nhập</th>
+		    <th>Tên SAP</th>
+		    <th>Đơn vị tính</th>
+                    <th>Số lượng</th>
+                    <th>Số Lot</th>
+                    <th>Ngày hết hạn</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Người nhập</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in logs %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+		    <td>{{ row[5] }}</td>
+		    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] or 'user tạm' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form action="/print_log_chemical/{{ selected | urlencode }}" method="get" target="_blank">
+            <button type="submit" class="print-btn">🖨️ In phiếu theo dõi</button>
+        </form>
+
+    {% elif selected %}
+        <p><em>Không có dữ liệu cho hóa chất đã chọn.</em></p>
+    {% endif %}
+
+{% endblock %}
+

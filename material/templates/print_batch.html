@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>GIẤY NHẬN VẬT TƯ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        .company {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 10px 0 20px;
+            text-transform: uppercase;
+        }
+
+        .info {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .info b {
+            display: inline-block;
+            width: 120px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            font-size: 14px;
+        }
+
+        .footer div {
+            text-align: center;
+            width: 30%;
+        }
+
+        .signature-date {
+            text-align: right;
+            margin-top: 40px;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .button-group {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .button-group button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        #print-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #home-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        @media print {
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="company">CÔNG TY CỔ PHẦN TẬP ĐOÀN THỦY SẢN MINH PHÚ</div>
+    <h2>GIẤY NHẬN VẬT TƯ</h2>
+
+    <div class="info">
+        <b>Họ và Tên:</b> {{ imported_by or "user tạm" }}<br>
+        <b>Bộ phận:</b> QUẢN LÝ CHẤT LƯỢNG - KNHH
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên vật tư (SAP)</th>
+                <th>Đơn vị tính</th>
+                <th>Số lượng</th>
+                <th>Mã SAP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="signature-date">
+        Cà Mau, ngày {{ import_date[:10].split("-")[2] }} tháng {{ import_date[:10].split("-")[1] }} năm {{ import_date[:10].split("-")[0] }}
+    </div>
+
+    <div class="footer">
+        <div>Người đề nghị</div>
+        <div>Trưởng bộ phận</div>
+        <div>Ban giám đốc</div>
+    </div>
+
+    <div class="button-group">
+        <button id="print-btn" onclick="window.print()">🖨️ In phiếu</button>
+        <a href="{{ url_for('dashboard.index') }}">
+            <button id="home-btn">🏠 Về trang chính</button>
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Nhật ký xuất hóa chất{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center;">🧪 NHẬT KÝ XUẤT HÓA CHẤT</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên hóa chất (SAP)</th>
+      <th>Đơn vị</th>
+      <th>Số lượng</th>
+      <th>Ngày xuất</th>
+      <th>Người xuất</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+    <tr>
+      <td>{{ row.id }}</td>
+      <td>{{ row.chemical_sap_name }}</td>
+      <td>{{ row.unit }}</td>
+      <td>{{ row.quantity }}</td>
+      <td>{{ row.export_date }}</td>
+      <td>{{ row.exported_by }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6"><em>Không có dữ liệu</em></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

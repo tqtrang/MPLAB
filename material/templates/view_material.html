@@ -1,0 +1,89 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Danh sách vật tư đã nhận{% endblock %}
+
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        td.left {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        a.button {
+            padding: 4px 8px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a.button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <h2 style="text-align: center;">📋 DANH SÁCH VẬT TƯ ĐÃ NHẬP</h2>
+
+    {% set col_headers = {
+        'id': 'STT',
+        'material_sap_name': 'Tên vật tư (SAP)',
+        'material_name': 'Tên vật tư (LAB)',
+        'unit': 'Đơn vị',
+        'quantity': 'Số lượng',
+        'supplier': 'Nhà cung cấp',
+        'import_date': 'Ngày nhập',
+        'sap_code': 'Mã SAP',
+        'imported_by': 'Người nhập'
+    } %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>  {# Thêm cột STT cố định #}
+                {% for col in col_names[1:] %}
+                    <th>{{ col_headers[col] if col in col_headers else col }}</th>
+                {% endfor %}
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ loop.index }}</td>  {# Sử dụng chỉ số vòng lặp #}
+                    {% for i in range(1, row|length) %}
+                        {% set col_name = col_names[i] %}
+                        <td class="{% if col_name in ['material_sap_name', 'material_name', 'supplier'] %}left{% endif %}">
+                            {{ row[i] }}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <a href="/edit_material/{{ row[0] }}" class="button">✏️ Sửa</a>
+                        <form method="POST" action="/delete_material/{{ row[0] }}" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xoá dòng này không?');">
+                            <button type="submit" class="button" style="background-color:#e74c3c;">🗑️ Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/import_material">⬅ Quay lại nhập vật tư</a>
+{% endblock %}
