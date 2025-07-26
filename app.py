@@ -32,6 +32,7 @@ def home():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render tự cấp port qua biến môi trường
-    app.run(host="0.0.0.0", port=port)
+    app.config["PROPAGATE_EXCEPTIONS"] = True
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 print(app.url_map)
