@@ -17,6 +17,9 @@ app.secret_key = "your-secret-key"  # Bắt buộc cho session
 print("📦 DB path exists:", os.path.exists("db/my_data.db"))
 print("📁 Working directory:", os.getcwd())
 
+from scripts import seed_admin
+seed_admin.run()
+
 # Đăng ký các blueprint
 app.register_blueprint(auth_bp)
 app.register_blueprint(material_bp)
@@ -44,5 +47,3 @@ if __name__ == "__main__":
 
 print(app.url_map)
 
-from scripts import seed_admin
-seed_admin.run()
