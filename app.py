@@ -6,7 +6,11 @@ from inventory import inventory_bp
 from dashboard import dashboard_bp
 from export_view.view_export import view_export_bp
 from auth.change_password import change_pw_bp
+
 import os
+
+
+
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"  # Bắt buộc cho session
@@ -39,3 +43,6 @@ if __name__ == "__main__":
     
 
 print(app.url_map)
+
+from scripts import seed_admin
+seed_admin.run()
