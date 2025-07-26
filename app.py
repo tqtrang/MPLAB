@@ -6,6 +6,7 @@ from inventory import inventory_bp
 from dashboard import dashboard_bp
 from export_view.view_export import view_export_bp
 from auth.change_password import change_pw_bp
+import os
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"  # Bắt buộc cho session
@@ -30,6 +31,7 @@ def home():
     return redirect(url_for('auth.login'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Render tự cấp port qua biến môi trường
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 print(app.url_map)
