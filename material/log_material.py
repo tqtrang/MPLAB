@@ -1,8 +1,12 @@
 from flask import Blueprint, render_template, request
 import sqlite3
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
 
 log_mat_bp = Blueprint("log_mat", __name__, template_folder="templates")
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
 
 @log_mat_bp.route("/log_material", methods=["GET", "POST"])
 def log_material():

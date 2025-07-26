@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
-
+import os
 auth_bp = Blueprint('auth', __name__)
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

@@ -1,7 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 import sqlite3
 
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
+
 
 change_pw_bp = Blueprint('change_pw', __name__, template_folder='templates')
 

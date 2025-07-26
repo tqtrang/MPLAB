@@ -2,12 +2,14 @@ from flask import Blueprint, render_template, request, redirect
 import sqlite3
 import os
 import uuid
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
 # Khởi tạo Blueprint
 material_bp = Blueprint("material", __name__, template_folder="templates")
 
-# Đường dẫn chính xác đến file DB
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
 
 @material_bp.route("/import_material", methods=["GET"])
 def import_material():

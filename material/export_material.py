@@ -2,8 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for
 import sqlite3
 from flask import session 
 
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
+
 export_mat_bp = Blueprint("export_mat", __name__, template_folder="templates")
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
 
 @export_mat_bp.route("/export_material", methods=["GET", "POST"])
 def export_material():

@@ -3,8 +3,14 @@ import sqlite3
 import pandas as pd
 import io
 
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
+
+
 inventory_bp = Blueprint("inventory", __name__, template_folder="templates")
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
 
 # ====== TRANG TỒN KHO CHÍNH ======
 @inventory_bp.route("/inventory")

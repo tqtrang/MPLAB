@@ -2,8 +2,13 @@ from flask import Blueprint, render_template, request
 import sqlite3
 from urllib.parse import unquote
 
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "..", "db", "my_data.db")
+
+
 log_chem_bp = Blueprint("log_chem", __name__, template_folder="templates")
-DB_PATH = r"C:\Users\TRANG\my_app\db\my_data.db"
+
 
 @log_chem_bp.route("/log_chemical", methods=["GET", "POST"])
 def log_chemical():
