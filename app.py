@@ -10,6 +10,8 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"  # Bắt buộc cho session
+print("📦 DB path exists:", os.path.exists("db/my_data.db"))
+print("📁 Working directory:", os.getcwd())
 
 # Đăng ký các blueprint
 app.register_blueprint(auth_bp)
@@ -34,7 +36,6 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render tự cấp port qua biến môi trường
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.run(host="0.0.0.0", port=port, debug=True)
-    print("📦 DB path exists:", os.path.exists("db/my_data.db"))
-    print("📁 Working directory:", os.getcwd())
+    
 
 print(app.url_map)
