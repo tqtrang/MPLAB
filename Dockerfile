@@ -15,6 +15,8 @@ RUN pip install --upgrade pip \
 
 # Copy the rest of the app
 COPY . /app/
+# ✅ Ép copy đúng file DB
+COPY db/my_data.db /app/db/my_data.db
 
 # Command to run the app (tùy bạn dùng Flask hay Streamlit)
 CMD ["python", "app.py"]
