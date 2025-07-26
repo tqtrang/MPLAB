@@ -32,6 +32,6 @@ def home():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render tự cấp port qua biến môi trường
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port)
 
 print(app.url_map)
