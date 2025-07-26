@@ -1,4 +1,4 @@
-seed_admin.pyimport sqlite3
+import sqlite3
 import os
 
 def run():
