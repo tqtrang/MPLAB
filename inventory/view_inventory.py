@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, send_file
+from flask import Blueprint, render_template, send_file, request
 import sqlite3
 import pandas as pd
 import io
@@ -126,3 +126,37 @@ def print_inventory():
 
     conn.close()
     return render_template("inventory_print.html", material_data=material_data, chemical_data=chemical_data)
+
+@inventory_bp.route("/update_min", methods=["GET", "POST"])
+def update_minimum():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    if request.method == "POST":
+        # ----- CẬP NHẬT VẬT TƯ -----
+        cursor.execute("SELECT material_sap_name FROM Materials")
+        material_names = [row[0] for row in cursor.fetchall()]
+        for i, name in enumerate(material_names):
+            new_min = request.form.get(f"material_{i}")
+            if new_min is not None:
+                cursor.execute("UPDATE Materials SET min_material = ? WHERE material_sap_name = ?", (new_min, name))
+
+        # ----- CẬP NHẬT HÓA CHẤT -----
+        cursor.execute("SELECT chemical_sap_name FROM Chemicals")
+        chemical_names = [row[0] for row in cursor.fetchall()]
+        for i, name in enumerate(chemical_names):
+            new_min = request.form.get(f"chemical_{i}")
+            if new_min is not None:
+                cursor.execute("UPDATE Chemicals SET min_chemical = ? WHERE chemical_sap_name = ?", (new_min, name))
+
+        conn.commit()
+
+    # Lấy danh sách để hiển thị
+    cursor.execute("SELECT material_sap_name, COALESCE(min_material, 0) FROM Materials")
+    materials = cursor.fetchall()
+    cursor.execute("SELECT chemical_sap_name, COALESCE(min_chemical, 0) FROM Chemicals")
+    chemicals = cursor.fetchall()
+
+    conn.close()
+    return render_template("update_minimum.html", materials=materials, chemicals=chemicals)
+

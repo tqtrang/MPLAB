@@ -40,7 +40,7 @@ def export_chemical():
         """, (sap_name, unit, quantity, export_date, exported_by))
         conn.commit()
         conn.close()
-        return redirect(url_for("export_chem.export_chemical"))
+        return redirect(url_for("view_export.view_export_chemical", success="1"))
 
     conn.close()
     return render_template("export_chemical.html", chemicals=chemicals, inventory=inventory)

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo hệ thống</title>
+</head>
+<body>
+  <h2>🔔 Thông báo hệ thống</h2>
+
+  {% if has_import_today %}
+    <p style="color: green;">✅ Có nhập kho hôm nay</p>
+  {% endif %}
+
+  {% if has_export_today %}
+    <p style="color: red;">✅ Có xuất kho hôm nay</p>
+  {% endif %}
+
+  {% if low_stock_alerts %}
+    <div style="background-color: #fff8e1; padding: 10px;">
+      <strong>⚠️ Cảnh báo tồn kho thấp:</strong>
+      <ul>
+        {% for msg in low_stock_alerts %}
+          <li>{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p>✅ Không có tồn kho nào dưới giới hạn hôm nay.</p>
+  {% endif %}
+
+  <br>
+  <a href="{{ url_for('dashboard.index') }}">⬅️ Quay lại trang chính</a>
+</body>
+</html>

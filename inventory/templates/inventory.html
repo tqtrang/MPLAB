@@ -3,17 +3,22 @@
 
 {% block content %}
 <h1 style="text-align: center;">📦 TỒN KHO VẬT TƯ - HÓA CHẤT</h1>
-<p>
-  🔙 <a href="{{ url_for('dashboard.index') }}">Quay về Trang chính</a>
-</p>
+
 
 <div style="margin-bottom: 20px;">
+
   <a href="{{ url_for('inventory.print_inventory') }}" target="_blank">
   <button>🖨️ In tồn kho</button>
-</a>
+  </a>
+
   <a href="{{ url_for('inventory.export_excel') }}">
     <button>📥 Xuất Excel</button>
   </a>
+
+  <a href="{{ url_for('inventory.update_minimum') }}">
+    <button>📜 Cập nhật giới hạn tồn kho</button>
+  </a>
+
 </div>
 
 <!-- VẬT TƯ -->

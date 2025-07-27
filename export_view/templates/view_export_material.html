@@ -1,4 +1,4 @@
-{% extends "layout_statistic.html" %}
+{% extends "layout_export.html" %}
 {% block title %}Nhật ký xuất vật tư{% endblock %}
 
 {% block content %}
@@ -7,26 +7,31 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th>
+      <th>STT</th>
       <th>Tên vật tư (SAP)</th>
       <th>Đơn vị</th>
       <th>Số lượng</th>
       <th>Ngày xuất</th>
       <th>Người xuất</th>
+      <th>Thao tác</th>
     </tr>
   </thead>
   <tbody>
     {% for row in data %}
     <tr>
-      <td>{{ row.id }}</td>
+      <td>{{ loop.index }}</td>
       <td>{{ row.material_sap_name }}</td>
       <td>{{ row.unit }}</td>
       <td>{{ row.quantity }}</td>
       <td>{{ row.export_date }}</td>
       <td>{{ row.exported_by }}</td>
+      <td>
+        <a href="{{ url_for('view_export.edit_material_export', id=row.id) }}">Sửa</a> |
+        <a href="{{ url_for('view_export.delete_material_export', id=row.id) }}" onclick="return confirm('Bạn có chắc muốn xoá?')">Xoá</a>
+      </td>
     </tr>
     {% else %}
-    <tr><td colspan="6"><em>Không có dữ liệu</em></td></tr>
+    <tr><td colspan="7"><em>Không có dữ liệu</em></td></tr>
     {% endfor %}
   </tbody>
 </table>

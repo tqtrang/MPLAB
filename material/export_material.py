@@ -45,7 +45,8 @@ def export_material():
         """, (sap_name, unit, quantity, export_date, exported_by))
         conn.commit()
         conn.close()
-        return redirect(url_for("export_mat.export_material"))
-
+        return redirect(url_for("view_export.view_export_material", success="1"))
+    
     conn.close()
+    
     return render_template("export_material.html", materials=materials, inventory=inventory_dict)

@@ -1,0 +1,125 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Thống kê Nhập/Xuất kho{% endblock %}
+
+{% block content %}
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    h2, h3 {
+      color: #0d47a1;
+    }
+
+    form {
+      margin-bottom: 20px;
+      background: #e0f7fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    select, input[type=number], button {
+      margin-right: 20px;
+      padding: 5px 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .back-link {
+      margin-top: 30px;
+      display: inline-block;
+    }
+  </style>
+  <script>
+    function toggleMonthField() {
+      var mode = document.querySelector('select[name="mode"]').value;
+      var monthInput = document.getElementById("month-input");
+      monthInput.style.display = (mode === 'month') ? 'inline-block' : 'none';
+    }
+    window.onload = toggleMonthField;
+  </script>
+</head>
+<body>
+  <h2 style="text-align: center;">📋 THỐNG KÊ XUẤT KHO - NHẬP KHO</h2>
+
+   <form method="POST">
+    <label>Chế độ:</label>
+    <select name="mode" onchange="toggleMonthField()">
+      <option value="month" {% if mode == 'month' %}selected{% endif %}>Theo tháng</option>
+      <option value="year" {% if mode == 'year' %}selected{% endif %}>Theo năm</option>
+    </select>
+
+    <label>Loại:</label>
+    <select name="item_type">
+      <option value="material" {% if item_type == 'material' %}selected{% endif %}>Vật tư</option>
+      <option value="chemical" {% if item_type == 'chemical' %}selected{% endif %}>Hóa chất</option>
+    </select>
+
+    <label>Kiểu:</label>
+    <select name="action_type">
+      <option value="import" {% if action_type == 'import' %}selected{% endif %}>Nhập kho</option>
+      <option value="export" {% if action_type == 'export' %}selected{% endif %}>Xuất kho</option>
+    </select>
+
+    <label id="month-input">Tháng:
+      <input type="number" name="month" min="1" max="12" value="{{ month }}">
+    </label>
+
+    <label>Năm:</label>
+    <input type="number" name="year" value="{{ year }}">
+
+    <button type="submit">Xem thống kê</button>
+    <button type="submit" name="export_excel" value="1">Xuất Excel</button>
+  </form>
+
+  {% if df is not none and df|length > 0 %}
+    <h3>{{ "📥" if action_type == 'import' else "📤" }} {{ label }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tên vật tư</th>
+          <th>Tên SAP</th>
+          <th>Mã SAP</th>
+          <th>Đơn vị</th>
+          <th>{{ label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for index, row in df.iterrows() %}
+        <tr>
+          <td>{{ row["Tên"] }}</td>
+          <td>{{ row["Tên SAP"] }}</td>
+          <td>{{ row["Mã SAP"] }}</td>
+          <td>{{ row["Đơn vị"] }}</td>
+          <td>{{ row[label] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p><em>Không có dữ liệu cho lựa chọn này.</em></p>
+  {% endif %}
+
+  <a class="back-link" href="{{ url_for('dashboard.index') }}">⬅ Quay lại trang chính</a>
+
+{% endblock %}

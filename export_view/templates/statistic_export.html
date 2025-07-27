@@ -1,0 +1,30 @@
+{% extends "layout_statistic.html" %}
+{% block title %}Tồn kho tổng hợp{% endblock %}
+
+{% block content %}
+<h2>📦 Thống kê Xuất kho theo tháng</h2>
+
+<form method="POST">
+  <label>Chọn năm:</label>
+  <input type="number" name="year" value="{{ selected_year }}">
+  <button type="submit">Xem thống kê</button>
+  <button type="submit" name="export_excel" value="1">Xuất Excel</button>
+</form>
+
+<table border="1" cellpadding="8" style="margin-top: 20px;">
+  <tr>
+    <th>Tháng</th>
+    <th>Vật tư xuất</th>
+    <th>Hóa chất xuất</th>
+  </tr>
+  {% for row in stats %}
+    <tr>
+      <td>{{ row['Tháng'] }}</td>
+      <td>{{ row['Vật tư xuất'] }}</td>
+      <td>{{ row['Hóa chất xuất'] }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<p><a href="{{ url_for('dashboard.index') }}">⬅ Quay lại trang chính</a></p>
+{% endblock %}

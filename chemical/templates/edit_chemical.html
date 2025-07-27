@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout_import.html" %}
 {% block title %}Sửa thông tin nhận hóa chất{% endblock %}
 
 {% block content %}
@@ -30,7 +30,7 @@
 </head>
 <body>
 
-    <h2 style="text-align: center;">✏️ SỬA PHIẾU NHẬN HÓA CHẤT</h2>
+    <h2 style="text-align: center;">✏️ SỬA THÔNG TIN NHẬN HÓA CHẤT</h2>
 
     <form method="POST" action="/edit_chemical/{{ entry[0] }}">
         <label for="chemical_sap_name">Tên hóa chất (SAP):</label>

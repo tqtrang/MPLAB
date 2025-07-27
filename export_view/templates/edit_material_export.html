@@ -1,0 +1,45 @@
+{% extends "layout_export.html" %}
+{% block title %}Sửa thông tin xuất vật tư{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center; margin-bottom: 30px;">
+  🛠️ <b>SỬA THÔNG TIN XUẤT VẬT TƯ</b>
+</h2>
+
+<form method="post" style="max-width: 600px; margin: auto;">
+  <div style="margin-bottom: 10px;">
+    <label><b>Tên vật tư (SAP):</b></label><br>
+    <input type="text" name="material_sap_name" value="{{ row.material_sap_name }}" style="width: 100%;" required>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label><b>Đơn vị:</b></label><br>
+    <input type="text" name="unit" value="{{ row.unit }}" style="width: 100%;" required>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label><b>Số lượng:</b></label><br>
+    <input type="number" step="0.01" name="quantity" value="{{ row.quantity }}" style="width: 100%;" required>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label><b>Ngày xuất:</b></label><br>
+    <input type="date" name="export_date" value="{{ row.export_date }}" style="width: 100%;" required>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label><b>Người xuất:</b></label><br>
+    <input type="text" name="exported_by" value="{{ row.exported_by }}" style="width: 100%;" required>
+  </div>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none;">
+      ✅ Lưu thay đổi
+    </button>
+    <a href="{{ url_for('view_export.view_export_material') }}" 
+       style="background-color: #d9534f; color: white; padding: 10px 20px; text-decoration: none; margin-left: 10px;">
+      ❌ Hủy
+    </a>
+  </div>
+</form>
+{% endblock %}

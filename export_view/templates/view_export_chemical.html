@@ -1,8 +1,14 @@
-{% extends "layout_statistic.html" %}
+{% extends "layout_export.html" %}
 {% block title %}Nhật ký xuất hóa chất{% endblock %}
 
 {% block content %}
 <h2 style="text-align:center;">🧪 NHẬT KÝ XUẤT HÓA CHẤT</h2>
+
+<form method="get" style="text-align: center; margin-bottom: 20px;">
+  Từ ngày: <input type="date" name="from_date" value="{{ from_date }}">
+  Đến ngày: <input type="date" name="to_date" value="{{ to_date }}">
+  <button type="submit">Lọc</button>
+</form>
 
 <table>
   <thead>
@@ -13,21 +19,31 @@
       <th>Số lượng</th>
       <th>Ngày xuất</th>
       <th>Người xuất</th>
+      <th>Thao tác</th>
     </tr>
   </thead>
   <tbody>
     {% for row in data %}
     <tr>
-      <td>{{ row.id }}</td>
+      <td>{{ loop.index }}</td>
       <td>{{ row.chemical_sap_name }}</td>
       <td>{{ row.unit }}</td>
       <td>{{ row.quantity }}</td>
       <td>{{ row.export_date }}</td>
       <td>{{ row.exported_by }}</td>
+      <td>
+        <a href="{{ url_for('view_export.edit_chemical_export', id=row.id) }}">Sửa</a> |
+        <a href="{{ url_for('view_export.delete_chemical_export', id=row.id) }}" onclick="return confirm('Bạn có chắc muốn xoá?')">Xoá</a>
+      </td>
     </tr>
     {% else %}
-    <tr><td colspan="6"><em>Không có dữ liệu</em></td></tr>
+    <tr><td colspan="7"><em>Không có dữ liệu</em></td></tr>
     {% endfor %}
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="7" style="text-align:right;"><strong>Tổng số lượt xuất: {{ data|length }}</strong></td>
+    </tr>
+  </tfoot>
 </table>
 {% endblock %}

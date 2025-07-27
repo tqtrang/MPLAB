@@ -19,7 +19,7 @@
     }
 
     .logo {
-      height: 100px;
+      height: 120px;
     }
 
     .header-center {
@@ -32,7 +32,7 @@
     }
 
     nav {
-      width: 170px;
+      width: 190px;
       background-color: #e0f7fa;
       padding: 20px 10px;
       min-height: calc(100vh - 160px); /* Trừ phần header + footer */
@@ -107,12 +107,12 @@
   <header>
     <!-- Logo -->
     <div>
-      <img src="{{ url_for('static', filename='images/logoMPC.png') }}" alt="Logo" class="logo">
+      <img src="{{ url_for('static', filename='images/logo_MPLAB_transparent.png') }}" alt="Logo" class="logo">
     </div>
 
     <!-- Tiêu đề và người dùng -->
     <div class="header-center">
-      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+      <h2>NHẬP VẬT TƯ - HÓA CHẤT</h2>
       {% if session.get('user_name') %}
         <p>
           Xin chào: <strong>{{ session['user_name'] }}</strong> |
@@ -122,7 +122,7 @@
     </div>
 
     <div>
-      <img src="{{ url_for('static', filename='images/logo_MPLAB.png') }}" alt="Logo" class="logo">
+      <img src="{{ url_for('static', filename='images/logo_ISO.png') }}" alt="Logo" class="logo">
     </div>
 
   </header>
@@ -135,6 +135,8 @@
         <li><a href="{{ url_for('dashboard.index') }}">🏠 Trang chính</a></li>
         <li><a href="{{ url_for('material.import_material') }}">📥 Nhập Vật Tư</a></li>
         <li><a href="{{ url_for('chemical.import_chemical') }}">🧪 Nhập Hóa Chất</a></li>
+	<li><a href="{{ url_for('view_mat.view_material') }}">📄 Vật Tư Đã Nhập</a></li>
+        <li><a href="{{ url_for('view_chem.view_chemical') }}">📄 Hóa Chất Đã Nhập</a></li>
       </ul>
     </nav>
 

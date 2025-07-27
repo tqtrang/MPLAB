@@ -6,6 +6,7 @@ from inventory import inventory_bp
 from dashboard import dashboard_bp
 from export_view.view_export import view_export_bp
 from auth.change_password import change_pw_bp
+from export_view.statistic_summary import statistic_summary_bp
 
 import os
 
@@ -14,11 +15,12 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"  # Bắt buộc cho session
-print("📦 DB path exists:", os.path.exists("db/my_data.db"))
-print("📁 Working directory:", os.getcwd())
+# print("📦 DB path exists:", os.path.exists("db/my_data.db"))
+# print("📁 Working directory:", os.getcwd())
 
-from scripts import seed_admin
-seed_admin.run()
+
+# from scripts import seed_admin
+# seed_admin.run()
 
 # Đăng ký các blueprint
 app.register_blueprint(auth_bp)
@@ -34,6 +36,7 @@ app.register_blueprint(export_chem_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(view_export_bp)
 app.register_blueprint(change_pw_bp)
+app.register_blueprint(statistic_summary_bp)
 
 @app.route('/')
 def home():

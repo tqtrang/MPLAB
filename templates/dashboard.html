@@ -11,13 +11,27 @@
       background-color: #f4fefe;
     }
 
-    header {
+    .main-header {
       background: #b2ebf2;
       padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
+    
+    	.header-left,
+	.header-center,
+	.header-right {
+ 	  flex: 1;
+	}
+
+     .header-center {text-align: center;}
+
+     .header-right {display: flex;  flex-direction: column;  align-items: flex-end;  font-size: 14px;  line-height: 1.5;}
+
+     .header-right a {  text-decoration: none;  color: #006064;  font-weight: bold;}
+
+    .header-right a:hover {  color: #004d40;  text-decoration: underline;}
 
     .logo {
       height: 100px;
@@ -95,27 +109,63 @@
       color: #555;
       margin-top: 80px;
     }
+
+    .alert-box {
+      margin: 20px;
+      padding: 15px 20px;
+      border-left: 6px solid;
+      background-color: #f9f9f9;
+    }
+
+    .alert-import {
+      border-color: green;
+      background-color: #e0ffe0;
+    }
+
+    .alert-export {
+      border-color: red;
+      background-color: #ffe0e0;
+    }
+
+    .alert-lowstock {
+      border-color: orange;
+      background-color: #fff8e1;
+    }
   </style>
 </head>
 <body>
 
   <!-- HEADER -->
-  <header>
+  <header class="main-header">
+  <!-- Logo bên trái -->
+  <div class="header-left">
     <img src="{{ url_for('static', filename='images/logoMPC.png') }}" alt="Logo 1" class="logo">
+  </div>
 
-    <div class="header-center">
-      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
-      {% if session.get('user_name') %}
-        <p>
-          Xin chào: <strong>{{ session['user_name'] }}</strong> |
-          <a href="{{ url_for('auth.logout') }}">Đăng xuất</a> |
-          <a href="{{ url_for('change_pw.change_password') }}">🔑 Đổi mật khẩu</a>
-        </p>
-      {% endif %}
-    </div>
+  <!-- Tiêu đề giữa -->
+  <div class="header-center">
+    <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+  </div>
 
-    <img src="{{ url_for('static', filename='images/logo_ISO.png') }}" alt="Logo 2" class="logo">
-  </header>
+  <!-- Thông tin user bên phải -->
+  <div class="header-right">
+    <div>
+     {% if session.get('user_name') %}
+      <p>
+	<a>👤 <strong>{{ session['user_name'] }}</strong><a>
+	<a href="{{ url_for('auth.logout') }}">🚪 Đăng xuất</a>
+	
+      </p>
+      <p>
+	<a href="{{ url_for('change_pw.change_password') }}">🔑 Đổi mật khẩu</a>
+	<a href="{{ url_for('dashboard.notifications') }}">🔔 Thông báo {% if alert_count %}({{ alert_count }}){% endif %}</a>
+
+      </p>
+            
+    {% endif %}
+   <div>
+  </div>
+</header>
 
   <!-- NAVIGATION MENU -->
   <nav>
@@ -131,13 +181,36 @@
       {% endif %}
 
       {% if 'admin' in session.get('roles', []) %}
-	<li><a href="{{ url_for('dashboard.import_menu') }}">📥 Nhập kho</a></li>
-	<li><a href="{{ url_for('dashboard.export_menu') }}">📤 Xuất kho</a></li>
+        <li><a href="{{ url_for('dashboard.import_menu') }}">📥 Nhập kho</a></li>
+        <li><a href="{{ url_for('dashboard.export_menu') }}">📤 Xuất kho</a></li>
         <li><a href="{{ url_for('dashboard.statistic_menu') }}">📈 Thống kê</a></li>
-	
       {% endif %}
     </ul>
   </nav>
+
+  <!-- ALERT BOXES -->
+  {% if has_import_today %}
+    <div class="alert-box alert-import">
+      ✅ Có nhập kho hôm nay
+    </div>
+  {% endif %}
+
+  {% if has_export_today %}
+    <div class="alert-box alert-export">
+      ✅ Có xuất kho hôm nay
+    </div>
+  {% endif %}
+
+  {% if low_stock_alerts %}
+    <div class="alert-box alert-lowstock">
+      <strong>⚠️ Cảnh báo tồn kho thấp:</strong>
+      <ul>
+        {% for msg in low_stock_alerts %}
+          <li>{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
   <!-- BANNER IMAGE -->
   <img src="{{ url_for('static', filename='images/logo_MPLAB.png') }}" alt="Banner" class="banner-img">

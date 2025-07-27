@@ -19,7 +19,7 @@
     }
 
     .logo {
-      height: 100px;
+      height: 120px;
     }
 
     .header-center {
@@ -107,12 +107,12 @@
   <header>
     <!-- Logo -->
     <div>
-      <img src="{{ url_for('static', filename='images/logoMPC.png') }}" alt="Logo" class="logo">
+      <img src="{{ url_for('static', filename='images/logo_MPLAB_transparent.png') }}" alt="Logo" class="logo">
     </div>
 
     <!-- Tiêu đề và người dùng -->
     <div class="header-center">
-      <h2>HỆ THỐNG QUẢN LÝ VẬT TƯ & HÓA CHẤT</h2>
+      <h2>THỐNG KÊ - TỔNG HỢP</h2>
       {% if session.get('user_name') %}
         <p>
           Xin chào: <strong>{{ session['user_name'] }}</strong> |
@@ -122,7 +122,7 @@
     </div>
 
     <div>
-      <img src="{{ url_for('static', filename='images/logo_MPLAB.png') }}" alt="Logo" class="logo">
+      <img src="{{ url_for('static', filename='images/logo_ISO.png') }}" alt="Logo" class="logo">
     </div>
 
   </header>
@@ -134,15 +134,10 @@
       <ul>
         <li><a href="{{ url_for('dashboard.index') }}">🏠 Trang chính</a></li>
         
-	<li><a href="{{ url_for('log_mat.log_material') }}">📜 Nhật Ký Vật Tư</a></li>
-        <li><a href="{{ url_for('log_chem.log_chemical') }}">📜 Nhật Ký Hóa Chất</a></li>
-        <li><a href="{{ url_for('view_export.view_export_material') }}">📤 Nhật ký xuất vật tư</a></li>
-        <li><a href="{{ url_for('view_export.view_export_chemical') }}">🧪 Nhật ký xuất hóa chất</a></li>
-
+	<li><a href="{{ url_for('log_mat.log_material') }}">📜 Nhật Ký Nhận Vật Tư</a></li>
+        <li><a href="{{ url_for('log_chem.log_chemical') }}">📜 Nhật Ký Nhận Hóa Chất</a></li>
         <li><a href="{{ url_for('inventory.view_inventory') }}">📦 Tồn Kho</a></li>
-        <li><a href="{{ url_for('view_mat.view_material') }}">📄 Vật Tư Đã Nhận</a></li>
-        <li><a href="{{ url_for('view_chem.view_chemical') }}">📄 Hóa Chất Đã Nhận</a></li>
-
+       	<li><a href="{{ url_for('statistic_summary.summary') }}">📊 Thống kê xuất nhập</a></li>
       </ul>
     </nav>
 
